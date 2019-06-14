@@ -1,0 +1,11 @@
+package com.jeejava.spring.drools.rules
+
+import com.jeejava.spring.drools.vo.AreaPin;
+import com.jeejava.spring.drools.exception.NumberFormatException;
+
+rule "PinCodeValidation"
+	when
+		AreaPin(code != 0 && code not matches "^[0-9]{6}$")
+	then
+		throw new NumberFormatException("Invalid Area Pin Code. Must be a valid 6 digits number.");
+end

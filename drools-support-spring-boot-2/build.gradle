@@ -1,0 +1,30 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.5.RELEASE'
+	}
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+	//Drools and KIE components
+	compile("org.kie:kie-spring:7.22.0.Final") 
+	compile("org.drools:drools-compiler:7.22.0.Final")
+}
