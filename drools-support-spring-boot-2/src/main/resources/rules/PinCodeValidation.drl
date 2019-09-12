@@ -1,7 +1,7 @@
-package com.jeejava.spring.drools.rules
+package com.roytuts.spring.drools.rules
 
-import com.jeejava.spring.drools.vo.AreaPin;
-import com.jeejava.spring.drools.exception.NumberFormatException;
+import com.roytuts.spring.drools.vo.AreaPin;
+import com.roytuts.spring.drools.exception.NumberFormatException;
 
 rule "PinCodeValidation"
 	when
