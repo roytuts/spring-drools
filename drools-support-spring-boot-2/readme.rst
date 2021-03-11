@@ -1,1 +1,1 @@
-You can go through the tutorial https://www.roytuts.com/drools-support-in-spring-boot-2/
+You can go through the tutorial https://roytuts.com/drools-support-in-spring-boot-2/
