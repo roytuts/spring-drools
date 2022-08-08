@@ -7,7 +7,9 @@ import org.kie.api.builder.KieBuilder;
 import org.kie.api.builder.KieFileSystem;
 import org.kie.api.builder.KieModule;
 import org.kie.api.builder.KieRepository;
+import org.kie.api.builder.Message;
 import org.kie.api.builder.ReleaseId;
+import org.kie.api.builder.Results;
 import org.kie.api.runtime.KieContainer;
 import org.kie.internal.io.ResourceFactory;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +26,7 @@ public class SpringDroolsConfig {
 	@Bean
 	public KieFileSystem kieFileSystem() throws IOException {
 		KieFileSystem kieFileSystem = getKieServices().newKieFileSystem();
+
 		for (Resource file : getRuleFiles()) {
 			kieFileSystem.write(ResourceFactory.newClassPathResource(RULES_PATH + file.getFilename(), "UTF-8"));
 		}
@@ -46,8 +49,14 @@ public class SpringDroolsConfig {
 			}
 		});
 
-		KieBuilder kieBuilder = getKieServices().newKieBuilder(kieFileSystem());
-		kieBuilder.buildAll();
+		KieBuilder kieBuilder = getKieServices().newKieBuilder(kieFileSystem()).buildAll();
+
+		Results results = kieBuilder.getResults();
+		
+		if (results.hasMessages(Message.Level.ERROR)) {
+			System.out.println(results.getMessages());
+			throw new IllegalStateException("### errors ###");
+		}
 
 		return getKieServices().newKieContainer(kieRepository.getDefaultReleaseId());
 	}
