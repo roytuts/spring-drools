@@ -1,0 +1,38 @@
+package rules
+
+//list any import classes here
+import com.roytuts.springboot3.drools.dto.Employee;
+import com.roytuts.springboot3.drools.exception.ValidationException;
+
+rule "EmployeeValidation"
+	when
+		Employee(id == 0 || name == null || email == null || phone == 0 || name.trim().length == 0 || email.trim().length == 0
+			|| address.street == null || address.city == null || address.state == null || address.zip == 0 || address.country == null
+				|| address.street.trim().length == 0 || address.city.trim().length == 0 || address.state.trim().length == 0 || address.country.trim().length == 0)
+	then
+		throw new ValidationException("id, name, email, phone, street, city, state, zip and country are required fields");
+end
+rule "EmployeeNameValidation"
+	when
+		Employee(name != null && name not matches "(\\b[A-Z]{1}[a-z]+)( )([A-Z]{1}[a-z]+\\b)")
+	then
+		throw new ValidationException("name should contain only letter and space");
+end
+rule "EmployeeEmailValidation"
+	when
+		Employee(email != null && email not matches "^[A-Za-z0-9!#%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$")
+	then
+		throw new ValidationException("Invalid email address");
+end
+rule "EmployeePhoneValidation"
+	when
+		Employee(phone != 0 && phone not matches "^[0-9]{10}$")
+	then
+		throw new ValidationException("Invalid phone number");
+end
+rule "EmployeeZipValidation"
+	when
+		Employee(address.zip != 0 && address.zip not matches "^[0-9]{6}$")
+	then
+		throw new ValidationException("Invalid zip number");
+end
